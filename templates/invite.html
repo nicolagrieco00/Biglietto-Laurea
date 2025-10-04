@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#faf7ef">
 </head>
 <body>
+  <!-- Password Gate -->
   <div class="gate" id="gate" style="display:flex;">
     <div class="panel">
       <h2>Parola d'ordine</h2>
@@ -80,6 +81,7 @@
   </main>
 
   <script>
+    // Share + countdown
     const startISO = "{{ start.isoformat() }}";
     const startTime = new Date(startISO).getTime();
     function updateShareLink(){
@@ -103,6 +105,7 @@
   </script>
 
   <script>
+    // Gate + audio + bats
     const ENTRY_PASSWORD = "{{ event.entry_password }}";
     const gate = document.getElementById('gate');
     const pwd = document.getElementById('pwd');
