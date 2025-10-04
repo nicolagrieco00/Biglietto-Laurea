@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file, request, jsonify, url_for
+from flask import Flask, render_template, send_file, request, jsonify
 from datetime import datetime, timedelta, timezone
 from dateutil import tz
 import io, qrcode
@@ -15,7 +15,7 @@ EVENT = {
     "venue": "Jammo addò Sandrissimo",
     "address": "Piazza Umberto I, 8, 83042 Atripalda AV",
     "gmaps_url": "https://www.google.com/maps?q=Jammo%20add%C3%B2%20Sandrissimo%2C%20Piazza%20Umberto%20I%2C%208%2C%2083042%20Atripalda%20AV",
-    "rsvp_whatsapp": "https://wa.me/39XXXXXXXXXX?text=Ciao%20Nicola%2C%20confermo%20la%20mia%20presenza!",
+    "rsvp_whatsapp": "https://wa.me/39XXXXXXXXXX?text=Ciao%20Nicola%2C%20confermo%20la%20mia%20presenza%20alla%20festa%20di%20laurea!",
     "entry_password": "rosagold",
 }
 
@@ -23,7 +23,8 @@ ROME = tz.gettz("Europe/Rome")
 
 def parse_event_start():
     dt = datetime.fromisoformat(EVENT["date_iso"])
-    if dt.tzinfo is None: dt = dt.replace(tzinfo=ROME)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=ROME)
     return dt
 
 def dt_utc_string(d: datetime) -> str:
@@ -34,12 +35,15 @@ def home():
     guest = request.args.get("guest") or ""
     start = parse_event_start()
     end = start + timedelta(hours=2)
-    wa_text = (f"Sei invitato alla festa di laurea di {EVENT['celebrant_name']}!\n\n"
-               f"{EVENT['title']}\n"
-               f"{start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')}\n"
-               f"{EVENT['venue']} – {EVENT['address']}\n"
-               "Apri l'invito qui: {URL}\n"
-               "RSVP entro il 27/10. Ti aspettiamo!")
+    wa_text = (
+        f"Sei invitato alla festa di laurea di {EVENT['celebrant_name']}!\n\n"
+        f"{EVENT['title']}\n"
+        f"{start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')}\n"
+        f"{EVENT['venue']} – {EVENT['address']}\n"
+        "Dress code: bianco + oro (Halloween-friendly!).\n"
+        "Apri l'invito qui: {URL}\n"
+        "RSVP entro il 27/10. Ti aspettiamo!"
+    )
     formatted_time = start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')
     return render_template("invite.html", event=EVENT, start=start, end=end, wa_text=wa_text, guest=guest, formatted_time=formatted_time)
 
