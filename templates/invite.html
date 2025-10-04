@@ -1,1 +1,138 @@
-<!doctype html><html><body><h1>{{ event.title }}</h1></body></html>
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ event.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="theme-color" content="#faf7ef">
+</head>
+<body>
+  <div class="gate" id="gate" style="display:flex;">
+    <div class="panel">
+      <h2>Parola d'ordine</h2>
+      <p class="hint">Solo chi sa la parola magica può entrare ✨</p>
+      <input id="pwd" type="password" placeholder="Inserisci password (es. rosagold)">
+      <div class="err" id="err"></div>
+      <button class="btn primary" id="unlockBtn">Entra</button>
+      <p class="hint2">Suggerimento: richiama le <strong>rose dorate</strong> 🌹</p>
+    </div>
+  </div>
+
+  <div class="bg"></div>
+
+  <main class="container">
+    <div class="card">
+      <div class="ribbon">
+        <span class="round">🎓</span>
+        <span class="label">Invito Speciale</span>
+        <span class="round">🥀</span>
+      </div>
+
+      <header class="title">
+        <h1>{{ event.title }}</h1>
+        <p class="subtitle">{{ event.subtitle }}</p>
+      </header>
+
+      <section class="hero-rose">
+        <div class="rose-frame">
+          <img src="{{ url_for('static', filename='rose.svg') }}" alt="Rose" class="rose rose-tl">
+          <img src="{{ url_for('static', filename='rose.svg') }}" alt="Rose" class="rose rose-br">
+          <p class="quote">"Rose dorate, brindisi e magie notturne"</p>
+        </div>
+      </section>
+
+      <section class="details">
+        {% if guest %}
+          <p class="hello">Ciao <strong>{{ guest }}</strong>! 🎉</p>
+        {% endif %}
+        <p>Si festeggia <span class="gold">{{ event.celebrant_name }}</span> – {{ event.degree }}</p>
+        <p class="badge">
+          <span>🕯️</span>
+          <span>{{ formatted_time }} (Europe/Rome)</span>
+        </p>
+        <p><span class="gold">{{ event.venue }}</span> · {{ event.address }}</p>
+      </section>
+
+      <section class="countdown" id="countdown">
+        <div class="box"><div class="num" id="d">--</div><div class="label">Giorni</div></div>
+        <div class="box"><div class="num" id="h">--</div><div class="label">Ore</div></div>
+        <div class="box"><div class="num" id="m">--</div><div class="label">Min</div></div>
+        <div class="box"><div class="num" id="s">--</div><div class="label">Sec</div></div>
+      </section>
+
+      <section class="cta">
+        <a id="waShare" class="btn primary" target="_blank" rel="noreferrer">📲 Condividi su WhatsApp</a>
+        <a class="btn" href="{{ event.gmaps_url }}" target="_blank" rel="noreferrer">📍 Apri su Google Maps</a>
+        <a class="btn" href="{{ event.rsvp_whatsapp }}" target="_blank" rel="noreferrer">✅ RSVP su WhatsApp</a>
+        <a class="btn" href="/download.ics">🗓️ Aggiungi al Calendario (.ics)</a>
+        <a class="btn" href="/qr.png{% if guest %}?guest={{ guest }}{% endif %}" target="_blank">🔳 QR dell'invito</a>
+      </section>
+
+      <footer class="foot">
+        Dress code: sfumature di <span class="gold">oro</span> e bianco. Un tocco elegante a tema Halloween è super apprezzato 👻
+        <div class="host">Creato con ❤️ da {{ event.host_name }}</div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const startISO = "{{ start.isoformat() }}";
+    const startTime = new Date(startISO).getTime();
+    function updateShareLink(){
+      const url = window.location.href;
+      const msg = `{{ wa_text }}`.replace("{URL}", url);
+      document.getElementById('waShare').href = "https://wa.me/?text=" + encodeURIComponent(msg);
+    }
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function tick(){
+      const now = Date.now();
+      const diff = Math.max(0, startTime - now);
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+      const s = Math.floor((diff % (1000*60)) / 1000);
+      d_el.textContent = pad(d); h_el.textContent = pad(h); m_el.textContent = pad(m); s_el.textContent = pad(s);
+      if(diff===0){ document.getElementById('countdown').classList.add('celebrate'); }
+    }
+    const d_el = document.getElementById('d'), h_el = document.getElementById('h'), m_el = document.getElementById('m'), s_el = document.getElementById('s');
+    updateShareLink(); setInterval(tick, 1000); tick();
+  </script>
+
+  <script>
+    const ENTRY_PASSWORD = "{{ event.entry_password }}";
+    const gate = document.getElementById('gate');
+    const pwd = document.getElementById('pwd');
+    const err = document.getElementById('err');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const chime = new Audio("{{ url_for('static', filename='chime.wav') }}");
+    const boo = new Audio("{{ url_for('static', filename='boo.wav') }}");
+
+    function spawnBat(x, y){
+      const b = document.createElement('div');
+      b.className = 'bat';
+      b.style.left = (x || (10 + Math.random()*70)) + 'vw';
+      b.style.top = (y || (30 + Math.random()*40)) + 'vh';
+      document.body.appendChild(b);
+      setTimeout(()=> b.remove(), 2200);
+    }
+    function unlock(){
+      const v = (pwd.value || '').trim().toLowerCase();
+      if(!v){ err.textContent = "Inserisci la password 👀"; return; }
+      if(v === String(ENTRY_PASSWORD).toLowerCase()){
+        gate.style.display = 'none';
+        try { chime.currentTime = 0; chime.play(); } catch(e){}
+        setTimeout(()=> { try { boo.currentTime = 0; boo.play(); } catch(e){} }, 800);
+        for(let i=0;i<6;i++){ setTimeout(()=> spawnBat(), i*250); }
+      }else{
+        err.textContent = "Oops… forse ti serve un petalo in più 🌹"; pwd.select();
+      }
+    }
+    unlockBtn.addEventListener('click', unlock);
+    pwd.addEventListener('keydown', e=>{ if(e.key==='Enter') unlock(); });
+  </script>
+</body>
+</html>
