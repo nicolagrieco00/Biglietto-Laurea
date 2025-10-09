@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://biglietto-laurea.onrender.com/ -->
+<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Festa di Laurea – Rose &amp; Halloween</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./Festa di Laurea – Rose &amp; Halloween_files/css2" rel="stylesheet">
+  <link rel="stylesheet" href="./Festa di Laurea – Rose &amp; Halloween_files/style.css">
+  <meta name="theme-color" content="#faf7ef">
+</head>
+<body data-new-gr-c-s-check-loaded="14.1256.0" data-gr-ext-installed="">
+  <!-- Password Gate -->
+  <div class="gate" id="gate" style="display:flex;">
+    <div class="panel">
+      <h2>Parola d'ordine</h2>
+      <p class="hint">Solo chi sa la parola magica può entrare ✨</p>
+      <input id="pwd" type="password" placeholder="Inserisci password (es. rosagold)">
+      <div class="err" id="err"></div>
+      <button class="btn primary" id="unlockBtn">Entra</button>
+      <p class="hint2">Suggerimento: richiama le <strong>rose dorate</strong> 🌹</p>
+    </div>
+  </div>
+
+  <div class="bg"></div>
+
+  <main class="container">
+    <div class="card">
+      <div class="ribbon">
+        <span class="round">🎓</span>
+        <span class="label">Invito Speciale</span>
+        <span class="round">🥀</span>
+      </div>
+
+      <header class="title">
+        <h1>Festa di Laurea – Rose &amp; Halloween</h1>
+        <p class="subtitle">Tra oro e bianco con un tocco di Halloween ✨🎃</p>
+      </header>
+
+      <section class="hero-rose">
+        <div class="rose-frame">
+          <img src="./Festa di Laurea – Rose &amp; Halloween_files/rose.svg" alt="Rose" class="rose rose-tl">
+          <img src="./Festa di Laurea – Rose &amp; Halloween_files/rose.svg" alt="Rose" class="rose rose-br">
+          <p class="quote">"Rose dorate, brindisi e magie notturne"</p>
+        </div>
+      </section>
+
+      <section class="details">
+        
+        <p>Si festeggia <span class="gold">Raffaella</span> – Laurea in CTF</p>
+        <p class="badge">
+          <span>🕯️</span>
+          <span>Friday 31 October 2025, 20:30 (Europe/Rome)</span>
+        </p>
+        <p><span class="gold">Jammo addò Sandrissimo</span> · Piazza Umberto I, 8, 83042 Atripalda AV</p>
+      </section>
+
+      <section class="countdown" id="countdown">
+        <div class="box"><div class="num" id="d">22</div><div class="label">Giorni</div></div>
+        <div class="box"><div class="num" id="h">10</div><div class="label">Ore</div></div>
+        <div class="box"><div class="num" id="m">51</div><div class="label">Min</div></div>
+        <div class="box"><div class="num" id="s">58</div><div class="label">Sec</div></div>
+      </section>
+
+      <section class="cta">
+        <a id="waShare" class="btn primary" target="_blank" rel="noreferrer" href="https://wa.me/?text=Sei%20invitato%20alla%20festa%20di%20laurea%20di%20Raffaella!%0A%0AFesta%20di%20Laurea%20%E2%80%93%20Rose%20%26amp%3B%20Halloween%0AFriday%2031%20October%202025%2C%2020%3A30%0AJammo%20add%C3%B2%20Sandrissimo%20%E2%80%93%20Piazza%20Umberto%20I%2C%208%2C%2083042%20Atripalda%20AV%0ADress%20code%3A%20bianco%20%2B%20oro%20(Halloween-friendly!).%0AApri%20l%26%2339%3Binvito%20qui%3A%20https%3A%2F%2Fbiglietto-laurea.onrender.com%2F%0ARSVP%20entro%20il%2027%2F10.%20Ti%20aspettiamo!">📲 Condividi su WhatsApp</a>
+        <a class="btn" href="https://www.google.com/maps?q=Jammo%20add%C3%B2%20Sandrissimo%2C%20Piazza%20Umberto%20I%2C%208%2C%2083042%20Atripalda%20AV" target="_blank" rel="noreferrer">📍 Apri su Google Maps</a>
+        <a class="btn" href="https://wa.me/393407882394?text=Ciao%20Nicola%2C%20confermo%20la%20mia%20presenza%20alla%20festa%20di%20laurea!" target="_blank" rel="noreferrer">✅ RSVP su WhatsApp</a>
+        <a class="btn" href="https://biglietto-laurea.onrender.com/download.ics">🗓️ Aggiungi al Calendario (.ics)</a>
+        <a class="btn" href="https://biglietto-laurea.onrender.com/qr.png" target="_blank">🔳 QR dell'invito</a>
+      </section>
+
+      <footer class="foot">
+        Dress code: sfumature di <span class="gold">oro</span> e bianco. Un tocco elegante a tema Halloween è super apprezzato 👻
+        <div class="host">Creato con ❤️ da Nicola</div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    // Share + countdown
+    const startISO = "2025-10-31T20:30:00+01:00";
+    const startTime = new Date(startISO).getTime();
+    function updateShareLink(){
+      const url = window.location.href;
+      const msg = `Sei invitato alla festa di laurea di Raffaella!
+
+Festa di Laurea – Rose &amp; Halloween
+Friday 31 October 2025, 20:30
+Jammo addò Sandrissimo – Piazza Umberto I, 8, 83042 Atripalda AV
+Dress code: bianco + oro (Halloween-friendly!).
+Apri l&#39;invito qui: {URL}
+RSVP entro il 27/10. Ti aspettiamo!`.replace("{URL}", url);
+      document.getElementById('waShare').href = "https://wa.me/?text=" + encodeURIComponent(msg);
+    }
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function tick(){
+      const now = Date.now();
+      const diff = Math.max(0, startTime - now);
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+      const s = Math.floor((diff % (1000*60)) / 1000);
+      d_el.textContent = pad(d); h_el.textContent = pad(h); m_el.textContent = pad(m); s_el.textContent = pad(s);
+      if(diff===0){ document.getElementById('countdown').classList.add('celebrate'); }
+    }
+    const d_el = document.getElementById('d'), h_el = document.getElementById('h'), m_el = document.getElementById('m'), s_el = document.getElementById('s');
+    updateShareLink(); setInterval(tick, 1000); tick();
+  </script>
+
+  <script>
+    // Gate + audio + bats
+    const ENTRY_PASSWORD = "rosagold";
+    const gate = document.getElementById('gate');
+    const pwd = document.getElementById('pwd');
+    const err = document.getElementById('err');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const chime = new Audio("/static/chime.wav");
+    const boo = new Audio("/static/boo.wav");
+
+    function spawnBat(x, y){
+      const b = document.createElement('div');
+      b.className = 'bat';
+      b.style.left = (x || (10 + Math.random()*70)) + 'vw';
+      b.style.top = (y || (30 + Math.random()*40)) + 'vh';
+      document.body.appendChild(b);
+      setTimeout(()=> b.remove(), 2200);
+    }
+    function unlock(){
+      const v = (pwd.value || '').trim().toLowerCase();
+      if(!v){ err.textContent = "Inserisci la password 👀"; return; }
+      if(v === String(ENTRY_PASSWORD).toLowerCase()){
+        gate.style.display = 'none';
+        try { chime.currentTime = 0; chime.play(); } catch(e){}
+        setTimeout(()=> { try { boo.currentTime = 0; boo.play(); } catch(e){} }, 800);
+        for(let i=0;i<6;i++){ setTimeout(()=> spawnBat(), i*250); }
+      }else{
+        err.textContent = "Oops… forse ti serve un petalo in più 🌹"; pwd.select();
+      }
+    }
+    unlockBtn.addEventListener('click', unlock);
+    pwd.addEventListener('keydown', e=>{ if(e.key==='Enter') unlock(); });
+  </script>
+
+<deepl-input-controller translate="no"><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
