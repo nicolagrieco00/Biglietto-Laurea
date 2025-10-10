@@ -8,17 +8,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <meta name="theme-color" content="#fff8f6">
+  <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-  <main class="wrap">
-    <div class="frame">
-      <img src="{{ url_for('static', filename='rose-red.svg') }}" class="rose rose-tl" alt="rose">
-      <img src="{{ url_for('static', filename='rose-red.svg') }}" class="rose rose-tr" alt="rose">
-      <img src="{{ url_for('static', filename='rose-red.svg') }}" class="rose rose-bl" alt="rose">
-      <img src="{{ url_for('static', filename='rose-red.svg') }}" class="rose rose-br" alt="rose">
-
-      <section class="text">
+  <main class="stage">
+    <div class="frame-bg"></div>
+    <div class="paper">
+      <div class="inner">
         <h2 class="kicker">È una festa di laurea!</h2>
         <h1 class="name">{{ event.celebrant_name }}</h1>
         <p class="for">per {{ event.degree }}</p>
@@ -26,23 +22,24 @@
         <p class="when">{{ formatted_time }}</p>
         <p class="where">{{ event.venue }}</p>
         <p class="addr">{{ event.address }}</p>
+
         {% if guest %}<p class="hello">Caro/a <strong>{{ guest }}</strong>, sei invitato con gioia! 🌹</p>{% endif %}
-      </section>
 
-      <section class="cta">
-        <a id="waShare" class="btn" target="_blank" rel="noreferrer">Condividi su WhatsApp</a>
-        <a class="btn" href="{{ event.gmaps_url }}" target="_blank" rel="noreferrer">Apri su Google Maps</a>
-        <a class="btn" href="{{ event.rsvp_whatsapp }}" target="_blank" rel="noreferrer">RSVP su WhatsApp</a>
-        <a class="btn" href="/download.ics">Aggiungi al Calendario (.ics)</a>
-        <a class="btn" href="/qr.png{% if guest %}?guest={{ guest }}{% endif %}" target="_blank">QR dell'invito</a>
-      </section>
+        <div class="cta">
+          <a id="waShare" class="btn" target="_blank" rel="noreferrer">Condividi su WhatsApp</a>
+          <a class="btn" href="{{ event.gmaps_url }}" target="_blank" rel="noreferrer">Apri su Google Maps</a>
+          <a class="btn" href="{{ event.rsvp_whatsapp }}" target="_blank" rel="noreferrer">RSVP su WhatsApp</a>
+          <a class="btn" href="/download.ics">Aggiungi al Calendario (.ics)</a>
+          <a class="btn" href="/qr.png{% if guest %}?guest={{ guest }}{% endif %}" target="_blank">QR dell'invito</a>
+        </div>
 
-      <section class="countdown" id="countdown">
-        <div class="box"><div class="num" id="d">--</div><div class="label">Giorni</div></div>
-        <div class="box"><div class="num" id="h">--</div><div class="label">Ore</div></div>
-        <div class="box"><div class="num" id="m">--</div><div class="label">Min</div></div>
-        <div class="box"><div class="num" id="s">--</div><div class="label">Sec</div></div>
-      </section>
+        <section class="countdown" id="countdown">
+          <div class="box"><div class="num" id="d">--</div><div class="label">Giorni</div></div>
+          <div class="box"><div class="num" id="h">--</div><div class="label">Ore</div></div>
+          <div class="box"><div class="num" id="m">--</div><div class="label">Min</div></div>
+          <div class="box"><div class="num" id="s">--</div><div class="label">Sec</div></div>
+        </section>
+      </div>
     </div>
   </main>
 
