@@ -21,7 +21,8 @@
     <p class="line addr">{{ event.address }}</p>
 
     <div class="cta">
-      <a id="waShare" class="btn" target="_blank" rel="noreferrer">Condividi su WhatsApp</a>
+      <!-- fallback href per sicurezza -->
+      <a id="waShare" class="btn" href="#" target="_blank" rel="noreferrer">Condividi su WhatsApp</a>
       <a class="btn" href="{{ event.gmaps_url }}" target="_blank" rel="noreferrer">Apri su Google Maps</a>
       <a class="btn" href="{{ event.rsvp_whatsapp }}" target="_blank" rel="noreferrer">RSVP su WhatsApp</a>
       <a class="btn" href="/download.ics">Aggiungi al Calendario (.ics)</a>
@@ -29,7 +30,25 @@
     </div>
     <button id="soundBtn" class="btn sound">🔊 Attiva suoni</button>
   </main>
+
   <div id="fxLayer"></div>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+  <!-- 👇 FIX: inizializza il link di condivisione con i dati reali -->
+  <script>
+    (function () {
+      const url = window.location.href;
+      const msg = `Sei invitato alla festa di laurea di {{ event.celebrant_name }}!` + "\\n\\n" +
+                  `{{ event.title }} – {{ event.degree }}` + "\\n" +
+                  `{{ formatted_time }}` + "\\n" +
+                  `{{ event.venue }} – {{ event.address }}` + "\\n" +
+                  `Apri l'invito qui: ${url}` + "\\n" +
+                  `Grazie!`;
+      const a = document.getElementById('waShare');
+      if (a) {
+        a.href = "https://wa.me/?text=" + encodeURIComponent(msg);
+      }
+    })();
+  </script>
 </body>
 </html>
