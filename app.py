@@ -29,12 +29,28 @@ def parse_event_start():
 def dt_utc_string(d):
     return d.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
+# --- Nuovo: formattazione italiana manuale (no dipendenza da locale del sistema)
+WEEKDAYS_IT = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
+MONTHS_IT = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+             "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]
+
+def format_datetime_it(dt_rometz: datetime) -> str:
+    wd = WEEKDAYS_IT[dt_rometz.weekday()]
+    day = dt_rometz.day
+    month = MONTHS_IT[dt_rometz.month - 1]
+    year = dt_rometz.year
+    hh = f"{dt_rometz.hour:02d}"
+    mm = f"{dt_rometz.minute:02d}"
+    return f"{wd} {day} {month} {year}, {hh}:{mm}"
+
 @app.route("/")
 def home():
     guest = request.args.get("guest") or ""
     start = parse_event_start()
     end = start + timedelta(hours=2)
-    formatted_time = start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')
+    start_it = start.astimezone(ROME)
+    formatted_time = format_datetime_it(start_it)
+
     wa_text = (
         f"Sei invitato alla festa di laurea di {EVENT['celebrant_name']}!\n\n"
         f"{EVENT['title']} – {EVENT['degree']}\n"
@@ -43,7 +59,16 @@ def home():
         "Apri l'invito qui: {URL}\n"
         "Conferma su WhatsApp quando puoi, grazie!"
     )
-    return render_template("invite.html", event=EVENT, start=start, end=end, formatted_time=formatted_time, guest=guest, wa_text=wa_text)
+
+    return render_template(
+        "invite.html",
+        event=EVENT,
+        start=start,
+        end=end,
+        formatted_time=formatted_time,
+        guest=guest,
+        wa_text=wa_text,
+    )
 
 @app.route("/download.ics")
 def download_ics():
@@ -51,13 +76,17 @@ def download_ics():
     end = start + timedelta(hours=2)
     ics = "\n".join([
         "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Invito Laurea//IT","BEGIN:VEVENT",
-        f"UID:invito-{start.timestamp()}@invito.local",f"DTSTAMP:{dt_utc_string(datetime.now(timezone.utc))}",
-        f"DTSTART:{dt_utc_string(start)}",f"DTEND:{dt_utc_string(end)}",
-        f"SUMMARY:{EVENT['title']} – {EVENT['celebrant_name']}",f"LOCATION:{EVENT['venue']} — {EVENT['address']}", 
-        f"DESCRIPTION:{EVENT['celebrant_name']} si laurea in {EVENT['degree']}.","END:VEVENT","END:VCALENDAR"
+        f"UID:invito-{start.timestamp()}@invito.local", f"DTSTAMP:{dt_utc_string(datetime.now(timezone.utc))}",
+        f"DTSTART:{dt_utc_string(start)}", f"DTEND:{dt_utc_string(end)}",
+        f"SUMMARY:{EVENT['title']} – {EVENT['celebrant_name']}",
+        f"LOCATION:{EVENT['venue']} — {EVENT['address']}",
+        f"DESCRIPTION:{EVENT['celebrant_name']} si laurea in {EVENT['degree']}.",
+        "END:VEVENT","END:VCALENDAR"
     ])
-    return send_file(io.BytesIO(ics.encode("utf-8")), mimetype="text/calendar", as_attachment=True, download_name="invito-laurea.ics")
+    return send_file(io.BytesIO(ics.encode("utf-8")), mimetype="text/calendar",
+                     as_attachment=True, download_name="invito-laurea.ics")
 
+# Rotta QR lasciata opzionale (non più linkata in pagina). Puoi eliminare questa rotta se vuoi.
 @app.route("/qr.png")
 def qr():
     base_url = request.url_root.rstrip("/")
@@ -68,7 +97,7 @@ def qr():
 
 @app.route("/health")
 def health():
-    return jsonify({"status":"ok"})
+    return jsonify({"status": "ok"})
 
 if __name__ == "__main__":
     import os
