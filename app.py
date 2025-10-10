@@ -15,7 +15,7 @@ EVENT = {
     "venue": "Jammo addò Sandrissimo",
     "address": "Piazza Umberto I, 8, 83042 Atripalda AV",
     "gmaps_url": "https://www.google.com/maps?q=Jammo%20add%C3%B2%20Sandrissimo%2C%20Piazza%20Umberto%20I%2C%208%2C%2083042%20Atripalda%20AV",
-    "rsvp_whatsapp": "https://wa.me/393407882394?text=Ciao%20Raffaella%2C%20confermo%20la%20mia%20presenza%20alla%20festa%20di%20laurea!",
+    "rsvp_whatsapp": "https://wa.me/39XXXXXXXXXX?text=Ciao%20Raffaella%2C%20confermo%20la%20mia%20presenza%20alla%20festa%20di%20laurea!",
 }
 
 ROME = tz.gettz("Europe/Rome")
