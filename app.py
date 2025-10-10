@@ -9,8 +9,8 @@ EVENT = {
     "celebrant_name": "Anna",
     "degree": "Laurea in CTF",
     "host_name": "Nicola",
-    "title": "Festa di Laurea",
-    "subtitle": "Celebriamo il traguardo di Anna",
+    "title": "È una Festa di Laurea!",
+    "subtitle": "",
     "date_iso": "2025-10-31T20:30:00+01:00",
     "venue": "Jammo addò Sandrissimo",
     "address": "Piazza Umberto I, 8, 83042 Atripalda AV",
@@ -26,7 +26,7 @@ def parse_event_start():
         dt = dt.replace(tzinfo=ROME)
     return dt
 
-def dt_utc_string(d: datetime) -> str:
+def dt_utc_string(d):
     return d.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 @app.route("/")
@@ -34,16 +34,16 @@ def home():
     guest = request.args.get("guest") or ""
     start = parse_event_start()
     end = start + timedelta(hours=2)
+    formatted_time = start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')
     wa_text = (
         f"Sei invitato alla festa di laurea di {EVENT['celebrant_name']}!\n\n"
         f"{EVENT['title']} – {EVENT['degree']}\n"
-        f"{start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')}\n"
+        f"{formatted_time}\n"
         f"{EVENT['venue']} – {EVENT['address']}\n"
         "Apri l'invito qui: {URL}\n"
         "Conferma su WhatsApp quando puoi, grazie!"
     )
-    formatted_time = start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')
-    return render_template("invite.html", event=EVENT, start=start, end=end, wa_text=wa_text, guest=guest, formatted_time=formatted_time)
+    return render_template("invite.html", event=EVENT, start=start, end=end, formatted_time=formatted_time, guest=guest, wa_text=wa_text)
 
 @app.route("/download.ics")
 def download_ics():
@@ -53,7 +53,7 @@ def download_ics():
         "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Invito Laurea//IT","BEGIN:VEVENT",
         f"UID:invito-{start.timestamp()}@invito.local",f"DTSTAMP:{dt_utc_string(datetime.now(timezone.utc))}",
         f"DTSTART:{dt_utc_string(start)}",f"DTEND:{dt_utc_string(end)}",
-        f"SUMMARY:{EVENT['title']} – {EVENT['celebrant_name']}",f"LOCATION:{EVENT['venue']} — {EVENT['address']}",
+        f"SUMMARY:{EVENT['title']} – {EVENT['celebrant_name']}",f"LOCATION:{EVENT['venue']} — {EVENT['address']}", 
         f"DESCRIPTION:{EVENT['celebrant_name']} si laurea in {EVENT['degree']}.","END:VEVENT","END:VCALENDAR"
     ])
     return send_file(io.BytesIO(ics.encode("utf-8")), mimetype="text/calendar", as_attachment=True, download_name="invito-laurea.ics")
