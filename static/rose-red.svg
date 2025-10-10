@@ -1,0 +1,41 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="rg" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ff667a"/>
+      <stop offset="1" stop-color="#c02739"/>
+    </radialGradient>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.2"/>
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="none"/>
+  <g transform="translate(120,120)">
+    <g>
+      <circle cx="0" cy="0" r="70" fill="url(#rg)"/>
+      <g fill="none" stroke="#8d1f2b" stroke-width="2" filter="url(#blur)">
+        <path d="M-50,0 C-20,-40,20,-40,50,0"/>
+        <path d="M-40,10 C-10,-20,10,-20,40,10"/>
+        <path d="M-30,20 C-5,0,5,0,30,20"/>
+      </g>
+    </g>
+    <g transform="translate(170,40) rotate(-18)">
+      <circle cx="0" cy="0" r="60" fill="url(#rg)"/>
+      <g fill="none" stroke="#8d1f2b" stroke-width="2" filter="url(#blur)">
+        <path d="M-45,0 C-15,-35,15,-35,45,0"/>
+        <path d="M-36,8 C-8,-18,8,-18,36,8"/>
+      </g>
+    </g>
+    <g transform="translate(40,170) rotate(12)">
+      <circle cx="0" cy="0" r="56" fill="url(#rg)"/>
+      <g fill="none" stroke="#8d1f2b" stroke-width="2" filter="url(#blur)">
+        <path d="M-40,0 C-10,-28,10,-28,40,0"/>
+        <path d="M-32,9 C-6,-12,6,-12,32,9"/>
+      </g>
+    </g>
+  </g>
+  <g fill="#386641" opacity=".9">
+    <ellipse cx="60" cy="240" rx="48" ry="18" transform="rotate(-18 60 240)"/>
+    <ellipse cx="280" cy="110" rx="52" ry="18" transform="rotate(24 280 110)"/>
+    <ellipse cx="200" cy="310" rx="60" ry="20" transform="rotate(-12 200 310)"/>
+  </g>
+</svg>
