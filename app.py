@@ -6,17 +6,16 @@ import io, qrcode
 app = Flask(__name__)
 
 EVENT = {
-    "celebrant_name": "Raffaella",
+    "celebrant_name": "Anna",
     "degree": "Laurea in CTF",
     "host_name": "Nicola",
-    "title": "Festa di Laurea – Rose & Halloween",
-    "subtitle": "Tra oro e bianco con un tocco di Halloween ✨🎃",
+    "title": "Festa di Laurea",
+    "subtitle": "Celebriamo il traguardo di Anna",
     "date_iso": "2025-10-31T20:30:00+01:00",
     "venue": "Jammo addò Sandrissimo",
     "address": "Piazza Umberto I, 8, 83042 Atripalda AV",
     "gmaps_url": "https://www.google.com/maps?q=Jammo%20add%C3%B2%20Sandrissimo%2C%20Piazza%20Umberto%20I%2C%208%2C%2083042%20Atripalda%20AV",
-    "rsvp_whatsapp": "https://wa.me/393407882394?text=Ciao%20Nicola%2C%20confermo%20la%20mia%20presenza%20alla%20festa%20di%20laurea!",
-    "entry_password": "rosagold",
+    "rsvp_whatsapp": "https://wa.me/39XXXXXXXXXX?text=Ciao%20Nicola%2C%20confermo%20la%20mia%20presenza%20alla%20festa%20di%20laurea%20di%20Anna!",
 }
 
 ROME = tz.gettz("Europe/Rome")
@@ -37,12 +36,11 @@ def home():
     end = start + timedelta(hours=2)
     wa_text = (
         f"Sei invitato alla festa di laurea di {EVENT['celebrant_name']}!\n\n"
-        f"{EVENT['title']}\n"
+        f"{EVENT['title']} – {EVENT['degree']}\n"
         f"{start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')}\n"
         f"{EVENT['venue']} – {EVENT['address']}\n"
-        "Dress code: bianco + oro (Halloween-friendly!).\n"
         "Apri l'invito qui: {URL}\n"
-        "RSVP entro il 27/10. Ti aspettiamo!"
+        "Conferma su WhatsApp quando puoi, grazie!"
     )
     formatted_time = start.astimezone(ROME).strftime('%A %d %B %Y, %H:%M')
     return render_template("invite.html", event=EVENT, start=start, end=end, wa_text=wa_text, guest=guest, formatted_time=formatted_time)
@@ -52,12 +50,11 @@ def download_ics():
     start = parse_event_start()
     end = start + timedelta(hours=2)
     ics = "\n".join([
-        "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Nicola//Invito Laurea//IT","BEGIN:VEVENT",
+        "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Invito Laurea//IT","BEGIN:VEVENT",
         f"UID:invito-{start.timestamp()}@invito.local",f"DTSTAMP:{dt_utc_string(datetime.now(timezone.utc))}",
         f"DTSTART:{dt_utc_string(start)}",f"DTEND:{dt_utc_string(end)}",
-        f"SUMMARY:{EVENT['title']}",f"LOCATION:{EVENT['venue']} — {EVENT['address']}",
-        f"DESCRIPTION:{EVENT['celebrant_name']} si laurea in CTF! Dress code: oro e bianco con un tocco Halloween.",
-        "END:VEVENT","END:VCALENDAR"
+        f"SUMMARY:{EVENT['title']} – {EVENT['celebrant_name']}",f"LOCATION:{EVENT['venue']} — {EVENT['address']}",
+        f"DESCRIPTION:{EVENT['celebrant_name']} si laurea in {EVENT['degree']}.","END:VEVENT","END:VCALENDAR"
     ])
     return send_file(io.BytesIO(ics.encode("utf-8")), mimetype="text/calendar", as_attachment=True, download_name="invito-laurea.ics")
 
