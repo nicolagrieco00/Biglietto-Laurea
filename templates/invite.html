@@ -4,37 +4,48 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ event.title }} – {{ event.celebrant_name }}</title>
+
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <meta name="theme-color" content="#ffffff">
 </head>
 <body>
+  <!-- Sfondo rose pulite (metti l'immagine in static/roses-clean.png) -->
   <div class="bg"></div>
+
+  <!-- Testo centrale -->
   <main class="canvas">
-    <h2 class="line title">{{ event.title }}</h2>
+    <!-- SOLO il titolo in bianco -->
+    <h2 class="line title white">{{ event.title }}</h2>
+
+    <!-- Nome calligrafico e dettagli in rosso -->
     <h1 class="line name">{{ event.celebrant_name }}</h1>
     <p class="line for">per {{ event.degree }}</p>
+
     <p class="line when">{{ formatted_time }}</p>
     <p class="line where">{{ event.venue }}</p>
     <p class="line addr">{{ event.address }}</p>
 
     <div class="cta">
-      <!-- fallback href per sicurezza -->
       <a id="waShare" class="btn" href="#" target="_blank" rel="noreferrer">Condividi su WhatsApp</a>
       <a class="btn" href="{{ event.gmaps_url }}" target="_blank" rel="noreferrer">Apri su Google Maps</a>
       <a class="btn" href="{{ event.rsvp_whatsapp }}" target="_blank" rel="noreferrer">RSVP su WhatsApp</a>
       <a class="btn" href="/download.ics">Aggiungi al Calendario (.ics)</a>
-      <a class="btn" href="/qr.png{% if guest %}?guest={{ guest }}{% endif %}" target="_blank">QR dell'invito</a>
+      <!-- QR rimosso come richiesto -->
     </div>
-    <button id="soundBtn" class="btn sound">🔊 Attiva suoni</button>
   </main>
 
+  <!-- Layer per effetti (pipistrelli/zucche) -->
   <div id="fxLayer"></div>
+
+  <!-- Script effetti (niente suoni) -->
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-  <!-- 👇 FIX: inizializza il link di condivisione con i dati reali -->
+  <!-- Inizializzazione link WhatsApp con i dati reali -->
   <script>
     (function () {
       const url = window.location.href;
