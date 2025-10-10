@@ -1,14 +1,36 @@
 *{ box-sizing:border-box }
 html,body{ height:100%; margin:0 }
 body{ font-family: 'Playfair Display', serif; color:#5b2328; background:#fff }
+
+/* Sfondo rose */
 .bg{ position:fixed; inset:0; background:url('roses-clean.png') center/cover no-repeat; z-index:-1 }
-.canvas{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:28px 14px }
-.line{ text-align:center; margin:0; text-shadow:0 2px 10px rgba(255,255,255,.85), 0 0 22px rgba(255,255,255,.72) }
-.title{ font-family:'Playfair Display',serif; color:#b21c2b; font-size:40px; letter-spacing:.02em; font-weight:600; margin-top:22px }
-.name{ font-family:'Great Vibes',cursive; font-size:92px; line-height:1.03; color:#a4162d; margin:0 0 6px }
-.for{ font-family:'Playfair Display',serif; font-size:22px; color:#992437; margin:0 0 16px }
-.when,.where,.addr{ font-family:'Playfair Display',serif; font-size:22px; margin:6px 0; color:#7a2630 }
-.cta{ margin:18px auto 10px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center }
-.btn{ text-decoration:none; padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.94); border:1px solid rgba(120,40,48,.25); color:#4a2024; font-weight:700; box-shadow:0 10px 22px rgba(178,28,43,.12); backdrop-filter:blur(1px) }
-.btn.sound{ background:linear-gradient(#fff,#ffe9e9); border-color:rgba(178,28,43,.35) }
-@media(max-width:560px){.name{font-size:70px}.title{font-size:32px}.when,.where,.addr,.for{font-size:18px}}
+
+/* Impaginazione centrale nello spazio bianco */
+.canvas{
+  min-height:100vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  padding:28px 14px;
+}
+
+/* Tipografia */
+.line{ text-align:center; margin:0; text-shadow: 0 2px 10px rgba(255,255,255,.85), 0 0 22px rgba(255,255,255,.72) }
+.title{ font-family:'Playfair Display', serif; color:#b21c2b; font-size:40px; letter-spacing:.02em; font-weight:600; margin-top:22px }
+.title.white{ color:#ffffff; text-shadow: 0 1px 2px rgba(0,0,0,.10), 0 0 20px rgba(0,0,0,.15) }
+.name{ font-family:'Great Vibes', cursive; font-size:92px; line-height:1.03; color:#a4162d; margin: 0 0 6px }
+.for{ font-family:'Playfair Display', serif; font-size:22px; color:#992437; margin: 0 0 16px }
+.when, .where, .addr{ font-family:'Playfair Display', serif; font-size:22px; margin:6px 0; color:#7a2630 }
+
+/* Bottoni */
+.cta{ margin: 18px auto 10px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center }
+.btn{
+  text-decoration:none; padding:10px 14px; border-radius:999px;
+  background:rgba(255,255,255,.94); border:1px solid rgba(120,40,48,.25);
+  color:#4a2024; font-weight:700; box-shadow:0 10px 22px rgba(178,28,43,.12); backdrop-filter: blur(1px)
+}
+
+/* Responsivo */
+@media (max-width:560px){
+  .name{ font-size:70px }
+  .title{ font-size:32px }
+  .when,.where,.addr,.for{ font-size:18px }
+}
