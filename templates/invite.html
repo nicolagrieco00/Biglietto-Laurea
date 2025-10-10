@@ -6,22 +6,19 @@
   <title>{{ event.title }} – {{ event.celebrant_name }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="theme-color" content="#ffffff">
 </head>
 <body>
   <div class="bg"></div>
   <main class="canvas">
     <h2 class="line title">{{ event.title }}</h2>
-    <div class="line sep"></div>
     <h1 class="line name">{{ event.celebrant_name }}</h1>
     <p class="line for">per {{ event.degree }}</p>
-
     <p class="line when">{{ formatted_time }}</p>
     <p class="line where">{{ event.venue }}</p>
     <p class="line addr">{{ event.address }}</p>
-
-    {% if guest %}<p class="line hello">Caro/a <strong>{{ guest }}</strong>, sei invitato con gioia! 🌹</p>{% endif %}
 
     <div class="cta">
       <a id="waShare" class="btn" target="_blank" rel="noreferrer">Condividi su WhatsApp</a>
@@ -30,34 +27,9 @@
       <a class="btn" href="/download.ics">Aggiungi al Calendario (.ics)</a>
       <a class="btn" href="/qr.png{% if guest %}?guest={{ guest }}{% endif %}" target="_blank">QR dell'invito</a>
     </div>
-
-    <section class="countdown" id="countdown">
-      <div class="box"><div class="num" id="d">--</div><div class="label">Giorni</div></div>
-      <div class="box"><div class="num" id="h">--</div><div class="label">Ore</div></div>
-      <div class="box"><div class="num" id="m">--</div><div class="label">Min</div></div>
-      <div class="box"><div class="num" id="s">--</div><div class="label">Sec</div></div>
-    </section>
+    <button id="soundBtn" class="btn sound">🔊 Attiva suoni</button>
   </main>
-
-  <script>
-    const startISO = "{{ start.isoformat() }}";
-    function updateShareLink(){
-      const url = window.location.href;
-      const msg = `Sei invitato alla festa di laurea di {{ event.celebrant_name }}!\n\n{{ event.title }} – {{ event.degree }}\n{{ formatted_time }}\n{{ event.venue }} – {{ event.address }}\nApri l'invito qui: ${url}\nGrazie!`;
-      document.getElementById('waShare').href = "https://wa.me/?text=" + encodeURIComponent(msg);
-    }
-    function pad(n){ return String(n).padStart(2,'0'); }
-    function tick(){
-      const startTime = new Date(startISO).getTime();
-      const diff = Math.max(0, startTime - Date.now());
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-      const s = Math.floor((diff % (1000*60)) / 1000);
-      d_el.textContent = pad(d); h_el.textContent = pad(h); m_el.textContent = pad(m); s_el.textContent = pad(s);
-    }
-    const d_el = document.getElementById('d'), h_el = document.getElementById('h'), m_el = document.getElementById('m'), s_el = document.getElementById('s');
-    updateShareLink(); setInterval(tick, 1000); tick();
-  </script>
+  <div id="fxLayer"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
