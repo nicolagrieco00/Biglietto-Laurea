@@ -6,10 +6,10 @@ import io, qrcode
 app = Flask(__name__)
 
 EVENT = {
-    "celebrant_name": "Anna",
+    "celebrant_name": "Raffaella",
     "degree": "Laurea in CTF",
     "host_name": "Nicola",
-    "title": "È una Festa di Laurea!",
+    "title": "Sei invitato alla festa di Laurea di",
     "subtitle": "",
     "date_iso": "2025-10-31T20:30:00+01:00",
     "venue": "Jammo addò Sandrissimo",
