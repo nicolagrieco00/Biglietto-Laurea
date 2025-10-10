@@ -47,19 +47,31 @@
 
   <!-- Inizializzazione link WhatsApp con i dati reali -->
   <script>
-    (function () {
-      const url = window.location.href;
-      const msg = `Sei invitato alla festa di laurea di {{ event.celebrant_name }}!` + "\\n\\n" +
-                  `{{ event.title }} – {{ event.degree }}` + "\\n" +
-                  `{{ formatted_time }}` + "\\n" +
-                  `{{ event.venue }} – {{ event.address }}` + "\\n" +
-                  `Apri l'invito qui: ${url}` + "\\n" +
-                  `Grazie!`;
-      const a = document.getElementById('waShare');
-      if (a) {
-        a.href = "https://wa.me/?text=" + encodeURIComponent(msg);
-      }
-    })();
-  </script>
+  (function () {
+    const url = window.location.href.split('#')[0]; // URL pulito
+
+    // Costruiamo il messaggio con vere newline
+    const lines = [
+      "Sei invitato alla festa di laurea di {{ event.celebrant_name }}!",
+      "",
+      "Festa di Laurea",
+      "{{ formatted_time }}",
+      "{{ event.venue }} – {{ event.address }}",
+      `Apri l'invito qui: ${url}`,
+      "Grazie!"
+    ];
+    const msg = lines.join('\n'); // <-- vere newline (\n), non stringhe "\\n"
+
+    const a = document.getElementById('waShare');
+    if (a) {
+      const encoded = encodeURIComponent(msg);
+      // Mobile e desktop: usa web.whatsapp su desktop per compatibilità
+      a.href = /Android|iPhone|iPad/i.test(navigator.userAgent)
+        ? `https://wa.me/?text=${encoded}`
+        : `https://web.whatsapp.com/send?text=${encoded}`;
+    }
+  })();
+</script>
+
 </body>
 </html>
